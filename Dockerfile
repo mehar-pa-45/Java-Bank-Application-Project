@@ -1,31 +1,24 @@
-# ---------- Stage 1: Build React App ----------
-FROM node:18-alpine AS builder
+# -------- Stage 1 : Build WAR using Maven --------
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
-# Copy dependency files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy source code
+# copy project files
 COPY . .
 
-# Fix permission for react scripts
-RUN chmod +x node_modules/.bin/react-scripts
-
-# Build React app
-RUN npm run build
+# build war file
+RUN mvn clean package -DskipTests
 
 
-# ---------- Stage 2: Nginx ----------
-FROM nginx:alpine
+# -------- Stage 2 : Run application using Tomcat --------
+FROM tomcat:9-jdk17
 
-RUN rm -rf /usr/share/nginx/html/*
+# remove default tomcat apps
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=builder /app/build /usr/share/nginx/html
+# copy war from build stage
+COPY --from=builder /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 
-EXPOSE 80
+EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["catalina.sh","run"]
