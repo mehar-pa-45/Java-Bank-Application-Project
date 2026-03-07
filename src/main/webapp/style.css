@@ -1,0 +1,40 @@
+body{
+font-family: Arial;
+margin:0;
+background:#f5f5f5;
+}
+
+.navbar{
+background:#0d2db6;
+color:white;
+display:flex;
+justify-content:space-between;
+padding:15px;
+}
+
+.navbar a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+}
+
+.hero{
+background:#e8f0ff;
+padding:80px;
+text-align:center;
+}
+
+.offers{
+display:flex;
+gap:20px;
+padding:40px;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+flex:1;
+text-align:center;
+}
