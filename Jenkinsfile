@@ -3,9 +3,9 @@ pipeline {
 
  stages {
 
- stage('Clone Repo'){
+ stage('Checkout'){
  steps{
-
+checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-cred', url: 'https://github.com/mehar-pa-45/Java-indigo-Airlines.git']])
  }
  }
 
