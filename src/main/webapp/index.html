@@ -246,7 +246,18 @@ result+=numbers[Math.floor(Math.random()*numbers.length)]
 return result
 }
 
-function createAccount(){
+function createAccount(){ 
+
+let name = document.getElementById("nameInput").value.trim()
+
+if(name === ""){
+alert("Please enter your Full Name")
+return
+}
+
+alert("Account Created")
+
+}
 
 let name=document.getElementById("nameInput").value
 let phone=document.getElementById("phoneInput").value
