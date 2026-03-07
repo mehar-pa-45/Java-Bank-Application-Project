@@ -1,35 +1,241 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Indigo Airlines</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyBank System</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-gray-100 font-sans">
 
-<header class="navbar">
-    <h1>IndiGo</h1>
-    <nav>
-        <a href="#">Flights</a>
-        <a href="#">Hotels</a>
-        <a href="#">Sightseeing</a>
-    </nav>
-</header>
+<!-- Registration -->
+<div id="registerPage">
 
-<section class="hero">
-    <h2>Plan your journey with ease</h2>
-    <p>Flights, Hotels and beyond</p>
-</section>
+<div class="bg-blue-700 text-white text-center p-4 text-2xl font-bold">
+MyBank Account Registration
+</div>
 
-<section class="offers">
-    <div class="card">Cabins with IndiGo</div>
-    <div class="card">50% Off SightSeeing</div>
-    <div class="card">Hotels on IndiGo</div>
-</section>
+<div class="max-w-xl mx-auto bg-white p-6 mt-8 rounded shadow">
 
-<footer>
-    <p>© 2026 Indigo Airlines</p>
-</footer>
+<h2 class="text-xl font-bold mb-4">Enter Your Details</h2>
+
+<input id="nameInput" placeholder="Full Name" class="border w-full p-2 mb-3 rounded">
+<input id="phoneInput" placeholder="Phone Number" class="border w-full p-2 mb-3 rounded">
+<input id="addressInput" placeholder="Address" class="border w-full p-2 mb-3 rounded">
+<input id="dobInput" type="date" class="border w-full p-2 mb-3 rounded">
+
+<button onclick="createAccount()" class="bg-blue-600 text-white w-full py-2 rounded">
+Create Account
+</button>
+
+</div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard" class="hidden">
+
+<div class="bg-blue-700 text-white p-4 flex justify-between">
+<h1 class="text-xl font-bold">MyBank Dashboard</h1>
+<button onclick="logout()" class="bg-red-500 px-3 py-1 rounded">Logout</button>
+</div>
+
+<div class="max-w-5xl mx-auto p-6">
+
+<!-- Account Card -->
+<div class="bg-gradient-to-r from-blue-600 to-blue-400 text-white p-6 rounded-xl shadow mb-6">
+
+<h2 class="text-lg">Account Holder</h2>
+<p id="holderName" class="text-2xl font-bold"></p>
+
+<p class="mt-2">Account No: <span id="accountNumber"></span></p>
+
+<p class="mt-4 text-lg">Current Balance</p>
+<p class="text-3xl font-bold">₹ <span id="balance">0</span></p>
+
+</div>
+
+<!-- ATM Card -->
+<div class="bg-gray-900 text-white p-6 rounded-xl mb-6">
+
+<p class="text-lg">ATM Card</p>
+<p class="text-2xl tracking-widest mt-4" id="atmNumber"></p>
+
+<p class="mt-4">Card Holder: <span id="atmName"></span></p>
+<p class="mt-2">Valid Thru 12/30</p>
+
+</div>
+
+<!-- Deposit / Withdraw -->
+<div class="grid md:grid-cols-2 gap-6">
+
+<div class="bg-white p-6 rounded shadow">
+
+<h3 class="text-xl font-bold mb-3">Deposit</h3>
+
+<input id="depositAmount" type="number" placeholder="Enter amount"
+class="border w-full p-2 mb-3 rounded">
+
+<button onclick="deposit()" class="bg-green-600 text-white px-4 py-2 rounded w-full">
+Deposit
+</button>
+
+</div>
+
+<div class="bg-white p-6 rounded shadow">
+
+<h3 class="text-xl font-bold mb-3">Withdraw</h3>
+
+<input id="withdrawAmount" type="number" placeholder="Enter amount"
+class="border w-full p-2 mb-3 rounded">
+
+<button onclick="withdraw()" class="bg-red-600 text-white px-4 py-2 rounded w-full">
+Withdraw
+</button>
+
+</div>
+
+</div>
+
+<!-- Passbook -->
+<div class="bg-white p-6 rounded shadow mt-6">
+
+<h3 class="text-xl font-bold mb-4">Digital Passbook</h3>
+
+<p><strong>Name:</strong> <span id="pname"></span></p>
+<p><strong>Phone:</strong> <span id="pphone"></span></p>
+<p><strong>Address:</strong> <span id="paddress"></span></p>
+<p><strong>DOB:</strong> <span id="pdob"></span></p>
+<p><strong>Account:</strong> <span id="paccount"></span></p>
+
+</div>
+
+<!-- Transaction History -->
+<div class="bg-white p-6 rounded shadow mt-6">
+
+<h3 class="text-xl font-bold mb-4">Transaction History</h3>
+
+<table class="w-full border text-center">
+
+<thead class="bg-gray-200">
+<tr>
+<th class="p-2">Type</th>
+<th class="p-2">Amount</th>
+<th class="p-2">Remaining Balance</th>
+<th class="p-2">Status</th>
+</tr>
+</thead>
+
+<tbody id="history"></tbody>
+
+</table>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+let balance = 0
+
+function generateNumber(length){
+
+let numbers="0123456789"
+let result=""
+
+for(let i=0;i<length;i++){
+result+=numbers[Math.floor(Math.random()*numbers.length)]
+}
+
+return result
+}
+
+function createAccount(){
+
+let name=document.getElementById("nameInput").value
+let phone=document.getElementById("phoneInput").value
+let address=document.getElementById("addressInput").value
+let dob=document.getElementById("dobInput").value
+
+let accountNumber=generateNumber(12)
+let atmNumber=generateNumber(16)
+
+document.getElementById("holderName").innerText=name
+document.getElementById("accountNumber").innerText=accountNumber
+
+document.getElementById("atmName").innerText=name
+document.getElementById("atmNumber").innerText=atmNumber
+
+document.getElementById("pname").innerText=name
+document.getElementById("pphone").innerText=phone
+document.getElementById("paddress").innerText=address
+document.getElementById("pdob").innerText=dob
+document.getElementById("paccount").innerText=accountNumber
+
+document.getElementById("registerPage").classList.add("hidden")
+document.getElementById("dashboard").classList.remove("hidden")
+
+}
+
+function updateBalance(){
+document.getElementById("balance").innerText=balance
+}
+
+function addHistory(type,amount,status){
+
+let row=`
+<tr class="border">
+<td class="p-2">${type}</td>
+<td class="p-2">₹${amount}</td>
+<td class="p-2">₹${balance}</td>
+<td class="p-2">${status}</td>
+</tr>
+`
+
+document.getElementById("history").innerHTML+=row
+
+}
+
+function deposit(){
+
+let amount=parseInt(document.getElementById("depositAmount").value)
+
+if(amount>0){
+
+balance+=amount
+updateBalance()
+addHistory("Deposit",amount,"Success")
+
+}
+
+}
+
+function withdraw(){
+
+let amount=parseInt(document.getElementById("withdrawAmount").value)
+
+if(amount<=balance){
+
+balance-=amount
+updateBalance()
+addHistory("Withdraw",amount,"Success")
+
+}else{
+
+alert("❌ Insufficient Balance")
+
+addHistory("Withdraw",amount,"Failed")
+
+}
+
+}
+
+function logout(){
+location.reload()
+}
+
+</script>
 
 </body>
 </html>
