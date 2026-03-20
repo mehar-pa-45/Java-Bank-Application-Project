@@ -13,7 +13,7 @@
  <name>java-Bank-Application-Project</name>
 
  <build>
-   <finalName>Bank-Application</finalName>
+   <finalName>java-Bank-Application-Project</finalName>
  </build>
 
 </project>
