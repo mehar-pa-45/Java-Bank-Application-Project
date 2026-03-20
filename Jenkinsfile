@@ -7,7 +7,7 @@ pipeline {
         GIT_BRANCH = "main"
 
         DOCKERHUB_USER = "mehardocker45"
-        IMAGE_NAME     = "Java-Bank-Application-Project"
+        IMAGE_NAME     = "java-bank-application-project"
         IMAGE_TAG      = "${BUILD_NUMBER}"
 
         DOCKER_CREDS   = "Docker_CRED"
