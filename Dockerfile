@@ -14,7 +14,7 @@ FROM tomcat:10-jdk17
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=builder /app/target/indigo-airlines.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=builder /app/target/java-Bank-Application-Project.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE 8080
 
