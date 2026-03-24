@@ -8,13 +8,12 @@ pipeline {
 
         DOCKERHUB_USER = "mehardocker45"
         IMAGE_NAME     = "java-bank-application-project"
-        IMAGE_TAG      = "${BUILD_NUMBER}"
+        IMAGE_TAG      = "latest"   
 
         DOCKER_CREDS   = "Docker_CRED"
 
-        CONTAINER_NAME = "Bank-Application-container"
-        HOST_PORT      = "8081"
-        CONTAINER_PORT = "8080"
+        K8S_DEPLOYMENT = "bank-deployment"  
+        K8S_NAMESPACE  = "default"
     }
 
     stages {
@@ -22,7 +21,8 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github-Cred', url: 'https://github.com/mehar-pa-45/Java-Bank-Application-Project.git']])
-                           }
+
+            }
         }
 
         stage('Build Docker Image') {
@@ -56,16 +56,14 @@ pipeline {
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy to Kubernetes') {
             steps {
                 sh """
-                docker stop ${CONTAINER_NAME} || true
-                docker rm ${CONTAINER_NAME} || true
+                kubectl set image deployment/${K8S_DEPLOYMENT} \
+                ${K8S_DEPLOYMENT}=${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} \
+                -n ${K8S_NAMESPACE}
 
-                docker run -d \
-                -p ${HOST_PORT}:${CONTAINER_PORT} \
-                --name ${CONTAINER_NAME} \
-                ${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG}
+                kubectl rollout restart deployment ${K8S_DEPLOYMENT} -n ${K8S_NAMESPACE}
                 """
             }
         }
