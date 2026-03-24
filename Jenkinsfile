@@ -10,8 +10,7 @@ pipeline {
         IMAGE_NAME     = "java-bank-application-project"
         IMAGE_TAG      = "latest"   
 
-        DOCKER_CREDS   = "Docker_CRED"
-
+        DOCKER_CREDS   = "Docker_CRED" 
         K8S_DEPLOYMENT = "bank-deployment"  
         K8S_NAMESPACE  = "default"
     }
