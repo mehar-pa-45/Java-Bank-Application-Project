@@ -66,7 +66,8 @@ pipeline {
 
             kubectl rollout restart deployment bank-deployment
             '''
-        }
-      }
+            }
+         }
+       }
     }
 }
