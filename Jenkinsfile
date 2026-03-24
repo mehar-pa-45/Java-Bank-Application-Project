@@ -6,7 +6,7 @@ pipeline {
         GIT_REPO   = "https://github.com/mehar-pa-45/Java-Bank-Application-Project.git"
         GIT_BRANCH = "main"
 
-        DOCKERHUB_USER = "mehardocker45"
+        DOCKERHUB_USER = "mehardocker45" 
         IMAGE_NAME     = "java-bank-application-project"
         IMAGE_TAG      = "latest"   
 
