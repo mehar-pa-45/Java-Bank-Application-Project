@@ -1,21 +1,20 @@
-# -------- Stage 1 : Build --------
+# -------- Stage 1 : Build Application --------
 FROM maven:3.9.6-eclipse-temurin-17 AS builder
 
-WORKDIR /app
+WORKDIR /build
 
-COPY pom.xml .
+COPY pom.xml . 
 COPY src ./src
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
-
-# -------- Stage 2 : Run --------
-FROM tomcat:10-jdk17
+# -------- Stage 2 : Run Application --------
+FROM tomcat:9-jdk17
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=builder /app/target/java-Bank-Application-Project.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=builder /build/target/*.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE 8080
 
-CMD ["catalina.sh", "run"]
+CMD ["catalina.sh","run"]
