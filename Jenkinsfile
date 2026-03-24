@@ -56,15 +56,17 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                sh """
-                kubectl set image deployment/${K8S_DEPLOYMENT} \
-                ${K8S_DEPLOYMENT}=${DOCKERHUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} \
-                -n ${K8S_NAMESPACE}
+    steps {
+        withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+            sh '''
+            export KUBECONFIG=$KUBECONFIG
 
-                kubectl rollout restart deployment ${K8S_DEPLOYMENT} -n ${K8S_NAMESPACE}
-                """
-            }
+            kubectl set image deployment/bank-deployment \
+            bank-deployment=mehardocker45/java-bank-application-project:latest
+
+            kubectl rollout restart deployment bank-deployment
+            '''
         }
+      }
     }
 }
