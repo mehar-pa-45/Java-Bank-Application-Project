@@ -1,7 +1,12 @@
 body{
 font-family: Arial;
 margin:0;
-background:#f5f5f5;
+background-image: url("background.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
 }
 
 .navbar{
